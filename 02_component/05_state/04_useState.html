@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- 
+        함수형 컴포넌트는 기본적으로 state 가 없다.
+        리액트 16.8 버전 이후 useState 라는 함수를 이용해서
+        함수형 컴포넌트에서도 state 를 관리할 수 있게 되었다.
+
+        useState를 지속적으로 사용할 것
+        리액트 개발팀이 함수 컴포넌트와 hooks 사용을 주요 개발 방식이 될 것이라고 공지
+    -->
+    <script type="text/babel">
+
+        /* 
+            useState 는 React 객체에서 내부에 존재하는 함수형 속성이다.
+            따라서 React.useState() 형태로 호출을 해서 사용해야 한다.
+            하지만 우리는 구조분해 할당을 통해서 미리 전역변수로 선언해두고 나면
+            React. 을 생략하고 useState로 사용할 수 있다.
+        */
+
+        // const useState = React.useState();
+        const {useState} = React;
+
+
+        function Say(){
+
+            // console.log(useState()); useState 함수는 반환형이 2칸짜리 배열이다. 2번째 인자 -> 함수(setter)
+
+            /* message 라는 상태(state) 와 setter 메소드를 배열 구조 분해 할당으로 각각의 변수에 할당함 */
+            /* 여러 개의 상태들을 한 컴포넌트 내에서 사용할 수도 있다. */
+            const [message,setMessage] = useState('기본상태');
+
+            const onClickEnter = () => setMessage('입장하셨습니다.');
+
+            const onClickLeave = () => setMessage('안녕히가세요');
+
+            const [color,setColor] = useState('yellow');
+            const style = {color: color}
+
+            const onClickRed = () => setColor('red');
+            const onClickBlue = () => setColor('blue');
+            const onClickGreen = () => setColor('Green');
+
+            return(
+                <>
+                    <h1 style={style}>{message}</h1>
+                    <div>
+                        <button onClick={onClickEnter}>입장</button>
+                        <button onClick={onClickLeave}>퇴장</button>    
+                    </div>
+                    <div >
+                        <button onClick = {onClickRed}>빨간색</button>
+                        <button onClick = {onClickBlue}>파란색</button>
+                        <button onClick = {onClickGreen}>초록색</button>    
+                    </div>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<Say/>);
+
+    </script>
+</body>
+</html>
