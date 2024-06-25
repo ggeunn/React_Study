@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const {useState} = React;
+
+        function App(){
+
+            const [todoList,setTodoList] = useState([
+                {id: 1, content: '메롱'}   
+            ]);
+
+            const [inputText,setInputText] = useState('');
+            const [nextId,setNextId] = useState(2);
+
+            const onChangeHandler = e => setInputText(e.target.value);
+            const onClickHandler = () => {
+                const changedList = todoList.concat({
+                    id : nextId,
+                    content : inputText
+                })
+
+                setNextId(nextId+1);
+                setTodoList(changedList);
+                setInputText('');
+                
+            }
+
+            const onRemove = id => {
+                 const changedList = todoList.filter(todo => todo.id !== id);
+                 setTodoList(changedList);
+
+            }
+
+    
+
+            const changedList = todoList.map(todo => 
+                                                    <> 
+                                                        <input type="checkBox"  />
+                                                        <span key = {todo.id}> {todo.content}</span> 
+                                                        <button onClick={()=> onRemove(todo.id)}>삭제</button>
+                                                        <br/>
+                                                    </>
+                                                )
+
+            const style = {
+                width : 500 ,
+                height: 600 ,
+                backgroundColor: 'lightblue',
+                marginLeft:650,
+                padding:70
+            }
+          
+            return(
+                <>
+                    <h1 style={{textAlign:'center'}}>Todo-List</h1>
+                    <div style={style}> 
+                        {changedList}
+                    </div>
+                    <div style={{marginLeft:850}}>
+                    <input 
+                        type="text"
+                        value={inputText}
+                        onChange = { onChangeHandler }
+                    />
+                    <button onClick={ onClickHandler }>등록하기</button>
+                    </div>
+                </>
+            );
+
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>)
+    </script>
+</body>
+</html>
