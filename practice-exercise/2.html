@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.6/prop-types.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        const {useState,useEffect} = React;
+
+        function App(){
+
+            const [inputValue, setInputvalue] = useState('');
+            const [count , setCount] = useState(0);
+
+            useEffect(() => {
+                if(inputValue){
+                    console.log('input 값이 바뀜');
+                }else if(count){
+                    console.log('count 값이 바뀜');
+                }else{
+                    console.log('렌더링 완료');
+                }
+            },[inputValue,count]);
+
+
+            return(
+                <>
+                    <h1>{count}</h1>
+                    <button onClick={()=>setCount(count+1)}>+1</button>
+                    <hr/>
+                    <input type="text" name="inputValue" onChange = {e => setInputvalue(e.target.value)}/><br/>
+                    {inputValue}
+                </>
+            );
+
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>)
+    </script>
+    
+</body>
+</html>

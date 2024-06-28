@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const {useState} = React;
+        function App(){
+
+            const [menuList,setMenuList] = useState([{id: 1 , name : "사탕"}])
+            const [menuName,setMenuName] = useState("")
+            const [nextId , setNextId] = useState(2);
+
+            const onChangeHandler = e => {
+                setMenuName(e.target.value)
+            }
+
+            const onClickHandler = () => {
+
+                const changedList = menuList.concat({
+                    id : nextId,
+                    name : menuName
+                })
+
+                setNextId(nextId+1);
+                setMenuList(changedList);
+                setMenuName('');
+            }
+            const changedList = menuList.map(menu => 
+                                                    <> 
+                                                        <span key = {menu.id}> {menu.name}</span>
+                                                        <br/>
+                                                    </>
+                                                )
+
+            return(
+                <>
+                    <input type="text" name="menu" onChange ={onChangeHandler} value={menuName}/>
+                    <button onClick={onClickHandler}>추가</button><br/>
+                    {changedList}
+                </>
+            );
+
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>)
+
+    </script>
+    
+</body>
+</html>
